@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Cat Clicker</title>
+</head>
+<body>
+
+	<a href="javascript:void(0)" id="target">
+		<img src="cat.jpg" alt="">
+	</a>
+	<p><input id="input" type="text" value="0"> miaus</p>
+	
+	<script>
+		var target = document.getElementById('target');
+		var input = document.getElementById('input');
+		var counter = input.value;
+
+		target.addEventListener('click', function(){
+			counter++
+			input.value = counter;
+		}, false);
+	</script>
+
+	
+</body>
+</html>

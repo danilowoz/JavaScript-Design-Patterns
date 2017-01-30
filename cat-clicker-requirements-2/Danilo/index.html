@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Cat Clicker</title>
+	<style>
+		img {
+			width: 100px;
+		}
+	</style>
+</head>
+<body>
+
+	<div id="foo"></div>
+	
+	<script>
+
+		var target = document.getElementById('foo');
+		var renderCats = '';
+		var cats = [{
+			url: 'cat.jpg',
+			name: 'Ozzy'
+		}, {
+			url: 'cat2.jpg',
+			name: 'Kurt'
+		}];
+
+		function processorData(data) {
+			var element =  '<div class="cat-item">'+
+								'<span>'+data.name+'</span>'+
+								'<img class="target" src="'+data.url+'" alt="">'+
+								'<p><input disabled class="counter" type="text" value="0"> miaus</p>'+
+							'</div>';
+
+			return element
+		};
+
+		cats.forEach(function(item){
+			target.insertAdjacentHTML('beforeend', processorData(item));
+		});
+
+		target.querySelectorAll('.target').forEach(function(item) {
+			item.addEventListener('click', function(e){
+				item.parentNode.querySelector('.counter').value++;
+			});
+		});
+
+	</script>
+
+	
+</body>
+</html>
