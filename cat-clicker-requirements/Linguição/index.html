@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
+        <title>Cat Clicker</title>
+    </head>
+    <body>
+        <img src="https://lh3.ggpht.com/nlI91wYNCrjjNy5f-S3CmVehIBM4cprx-JFWOztLk7vFlhYuFR6YnxcT446AvxYg4Ab7M1Fy0twaOCWYcUk=s0#w=640&h=426" id="cat-img" />
+        <p>Total: <input id="total" value="0" disabled /></p>
+
+        <script type="text/javascript">
+            var catImg = document.getElementById('cat-img');
+            var catTotal = document.getElementById('total');
+            var value = Number(catTotal.value);
+
+            catImg.addEventListener('click', function handler(event) {
+                catTotal.value = ++value;
+            });
+        </script>
+    </body>
+</html>
