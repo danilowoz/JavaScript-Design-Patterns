@@ -1,0 +1,34 @@
+<script>
+var click = 0;
+var count = 0;
+var gato1 = {name:"gato1", imgSource:"https://i.ytimg.com/vi/tntOCGkgt98/maxresdefault.jpg", clickCount:"0"};
+var gato2 = {name:"gato2", imgSource:"http://3.bp.blogspot.com/-70SrSSUHJT0/UMiVjJKsoFI/AAAAAAAAADY/ANXwyYnaAE0/s1600/sphynx-cat.jpg", clickCount:"0"};
+var array = [gato1,gato2];
+</script>
+<html>
+Count:<br>
+<input type="text" id="count" value="0"/><br>
+<div id="div1">
+</div>
+</html>
+<script>
+	for (var i = 0; i < array.length; i++) {
+	var img = document.createElement("img");
+	var div = document.getElementById('div1');
+	img.src = array[i].imgSource;
+	img.setAttribute('width',350);
+	img.setAttribute('heigth',350);
+
+  	div.appendChild(img);
+}
+
+</script>
+
+<script>
+var gatoo = document.getElementById('div1');
+var elem2 = document.getElementById('count');	
+gatoo.addEventListener('click', function(){
+  click ++;
+  elem2.value = click;
+}, false);
+</script>
