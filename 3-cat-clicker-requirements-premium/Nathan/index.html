@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>We love cats</title>
+    <style>
+        body {
+            margin:  0;
+        }
+    </style>
+</head>
+<body>
+<header>
+	<h1>Cats</h1>
+</header>
+<section>
+	<article>
+		<ul id="cat-list"></ul>
+	</article>
+	<article>
+		<div id="cat-info"></div>
+	</article>
+</section>
+<script>
+	(function(argument) {
+		const catList = [
+			{name: 'John', photo: '1.jpg', clicks: 0},
+			{name: 'Burguer', photo: '2.jpg', clicks: 0},
+			{name: 'Violento', photo: '3.jpeg', clicks: 0},
+            {name: 'Java', photo: '4.jpg', clicks: 0},
+            {name: 'Brainfuck', photo: '5.jpg', clicks: 0}
+		],
+			catInfoBuilder = function (cat) {
+				const infoElement = document.getElementById('cat-info');
+				infoElement.innerHTML = '';
+
+				var catNameEl = document.createElement('h3'),
+					catPhoto = document.createElement('img'),
+					catClicks = document.createElement('h2');
+
+
+				catNameEl.textContent = cat.name;
+				catPhoto.src = './img/' + cat.photo;
+				catPhoto.style = 'width: 200px; height = 200px; border-radius: 50%;';
+                catPhoto.addEventListener('click', function () {
+                    cat.clicks += 1;
+                    catInfoBuilder(cat);
+                });
+				catClicks.textContent = String(cat.clicks);
+
+				infoElement.appendChild(catNameEl);
+				infoElement.appendChild(catPhoto);
+				infoElement.appendChild(catClicks);
+			},
+
+			showList = function (list) {
+                const listElement = document.getElementById('cat-list');
+
+                list.forEach(function (cat) {
+                    var li = document.createElement('li');
+                    console.log('li', li)
+                    li.textContent = cat.name;
+                    li.addEventListener('click', function () {
+						cat.clicks += 1;
+                        catInfoBuilder(cat);
+						console.log('catList', catList)
+                    });
+                    listElement.appendChild(li);
+                });
+            };
+		showList(catList);
+	})();
+</script>
+</body>
+</html>
