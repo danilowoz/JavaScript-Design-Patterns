@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head></head>
+<body>
+<ul style='list-style-type: none;'>
+</ul>
+<div id='show'>
+</div>
+<script>
+var cats = [
+    {
+    id: 0,
+            title: 'Gatinho fofo',
+            url: 'https://lh3.ggpht.com/nlI91wYNCrjjNy5f-S3CmVehIBM4cprx-JFWOztLk7vFlhYuFR6YnxcT446AvxYg4Ab7M1Fy0twaOCWYcUk=s0#w=640&h=426',
+            clicks: 0
+    },
+    {
+    id: 1,
+        title: 'Gato manco',
+        url: 'https://lh3.ggpht.com/kixazxoJ2ufl3ACj2I85Xsy-Rfog97BM75ZiLaX02KgeYramAEqlEHqPC3rKqdQj4C1VFnXXryadFs1J9A=s0#w=640&h=496',
+        clicks: 0
+    },
+    {
+    id: 2,
+        title: 'Gato louco',
+        url: 'https://lh5.ggpht.com/LfjkdmOKkGLvCt-VuRlWGjAjXqTBrPjRsokTNKBtCh8IFPRetGaXIpTQGE2e7ZCUaG2azKNkz38KkbM_emA=s0#w=640&h=454',
+        clicks: 0
+    }
+];
+
+function createCatList() {
+    var ul = document.body.querySelector('ul');
+    var createCat = function(cat) {
+        var li = document.createElement('li');
+        var img = document.createElement('img');
+
+        img.src = cat.url;
+        img.width = 50;
+        img.height = 50;
+
+        li.dataset.id = cat.id;
+        li.appendChild(img);
+
+        ul.appendChild(li);
+    };
+
+    cats.forEach(createCat);
+}
+
+function catItemHandler(event) {
+    var element = event.currentTarget;
+    var id = Number(element.dataset.id);
+    var cat = cats.reduce(function findCat(prev, next) {
+        return prev.id === id ? prev : next;
+    });
+
+    var div = document.getElementById('show');
+    div.innerHTML = '';
+    var img = document.createElement('img');
+    var span = document.createElement('span');
+    var input = document.createElement('input');
+
+    input.value = cat.clicks;
+    input.disabled = true;
+    span.innerText = cat.title;
+    img.src = cat.url;
+    
+    div.appendChild(span);
+    div.appendChild(img);
+    div.appendChild(input);
+
+    img.addEventListener('click', function handler(event) {
+        input.value = ++cat.clicks;
+    });
+}
+
+function createListListeners() {
+    var lis = document.getElementsByTagName('li');
+
+    Array.prototype.forEach.call(lis, function addClickHandler(li) {
+        li.addEventListener('click', catItemHandler, false);
+    });
+}
+
+createCatList();
+createListListeners();
+</script>
+</body>
+</html>
