@@ -1,0 +1,14 @@
+body {
+	background: pink;
+}
+
+.count {
+	font-family: SANS-SERIF;
+	font-size: 50px;
+    	margin-left: 10%;
+}
+
+.cat {
+	text-align: center;
+	margin-top: 8%;
+}
