@@ -1,0 +1,19 @@
+body {
+	background: pink;
+	font-family: SANS-SERIF;
+}
+
+.cat {
+	text-align: center;
+	margin-top: 8%;
+	display: inline;
+}
+
+.cat-1, .cat-2 {
+	font-size: 30px;
+	display: inline-block;
+	p {
+		position: absolute;
+		display: inline-block;
+	}
+}
