@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Cat Clicker Premium</title>
+	<style>
+		body {
+			display: flex;
+			font-family: sans-serif;
+		}
+
+		#list {
+			width: 30%;
+		}
+
+		#list img {
+			width: 100px;
+		}
+		#display {
+			width: 70%;
+		}
+		#display img {
+			max-height: 90vh;
+			max-width: 90vh;
+		}
+		
+	</style>
+</head>
+<body>
+
+	<ul id="list"></ul>
+	<div id="display"></div>
+	
+	<script>
+
+		var display = document.getElementById('display');
+		var list = document.getElementById('list');
+		var cats = [{
+			url: 'cat.jpg',
+			name: 'Ozzy',
+			count: 0
+		}, {
+			url: 'cat2.jpg',
+			name: 'Kurt',
+			count: 0
+		}, {
+			url: 'cat3.jpg',
+			name: 'David',
+			count: 0
+		}, {
+			url: 'cat4.jpg',
+			name: 'Jimmy',
+			count: 0
+		}, {
+			url: 'cat5.jpg',
+			name: 'Safadão',
+			count: 0
+		}];
+
+		function insertList(data) {
+			var element =  '<li class="cat-item">'+
+								'<a href="javascript:void(0);">'+data.name+'</a>'+
+							'</li>';
+
+			return element
+		}
+
+		function insertCat(data) {
+			var element =  '<div class="cat-full">'+
+								'<h1>'+data.name+'</h1><br>'+
+								'<p><span class="counter">'+data.count+'</span> miaus.</p>'+
+								'<img class="target" src="'+data.url+'" alt="">'+
+							'</div>';
+
+			return element
+		}
+
+		// insert list
+		cats.forEach(function(item){
+			list.insertAdjacentHTML('beforeend', insertList(item));
+		});
+
+		// clicker
+		list.querySelectorAll('.cat-item').forEach(function(item) {
+			item.addEventListener('click', function(e){
+				var nodeList = Array.prototype.slice.call( list.children );
+				var index = nodeList.indexOf(item); 
+	
+				display.innerHTML = '';
+				display.insertAdjacentHTML('beforeend', insertCat(cats[index]));
+
+				display.querySelector('.cat-full').addEventListener('click', function(e) {
+					display.parentNode.querySelector('.counter').textContent++;
+					cats[index].count = cats[index].count + 1;
+				});			
+			});
+		});
+
+	</script>
+
+	
+</body>
+</html>
