@@ -1,0 +1,11 @@
+ul {
+  list-style-type: none;
+}
+
+li img {
+  width: 70px;
+}
+
+li input {
+  width: 10px;
+}
