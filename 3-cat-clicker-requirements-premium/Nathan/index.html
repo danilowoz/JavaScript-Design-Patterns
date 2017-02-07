@@ -21,7 +21,7 @@
 	</article>
 </section>
 <script>
-	(function(argument) {
+	(()=> {
 		const catList = [
 			{name: 'John', photo: '1.jpg', clicks: 0},
 			{name: 'Burguer', photo: '2.jpg', clicks: 0},
@@ -29,7 +29,7 @@
             {name: 'Java', photo: '4.jpg', clicks: 0},
             {name: 'Brainfuck', photo: '5.jpg', clicks: 0}
 		],
-			catInfoBuilder = function (cat) {
+			catInfoBuilder = cat => {
 				const infoElement = document.getElementById('cat-info');
 				infoElement.innerHTML = '';
 
@@ -52,17 +52,15 @@
 				infoElement.appendChild(catClicks);
 			},
 
-			showList = function (list) {
+			showList = list => {
                 const listElement = document.getElementById('cat-list');
 
                 list.forEach(function (cat) {
                     var li = document.createElement('li');
-                    console.log('li', li)
                     li.textContent = cat.name;
                     li.addEventListener('click', function () {
 						cat.clicks += 1;
                         catInfoBuilder(cat);
-						console.log('catList', catList)
                     });
                     listElement.appendChild(li);
                 });
