@@ -1,0 +1,86 @@
+<script>
+    var click = 0;
+    var count = 0;
+    var gato1 = {
+        name: "gato1",
+        imgSource: "https://i.ytimg.com/vi/tntOCGkgt98/maxresdefault.jpg",
+        clickCount: 0
+    };
+    var gato2 = {
+        name: "gato2",
+        imgSource: "http://3.bp.blogspot.com/-70SrSSUHJT0/UMiVjJKsoFI/AAAAAAAAADY/ANXwyYnaAE0/s1600/sphynx-cat.jpg",
+        clickCount: 0
+    };
+    var gato3 = {
+        name: "gato3",
+        imgSource: "http://meusanimais.com.br/wp-content/uploads/2015/05/gato.jpg",
+        clickCount: 0
+    };
+    var gato4 = {
+        name: "gato4",
+        imgSource: "http://www.gatosmania.com/Uploads/gatosmania.com/ImagensGrandes/linguagem-corporal-gatos.jpg",
+        clickCount: 0
+    };
+    var gato5 = {
+        name: "gato5",
+        imgSource: "https://abrilveja.files.wordpress.com/2016/05/gato-fofo-20142401-original1.jpeg?quality=70&strip=all&w=620",
+        clickCount: 0
+    };
+
+    var array = [gato1, gato2, gato3, gato4, gato5];
+</script>
+<html>
+Count:<br>
+<input type="text" id="count" value="0" /><br>
+<div id="div1"></div>
+<div id="gatinhos"></div>
+
+<script type="text/javascript">
+    //cria lista de gatos para selecionar
+    for (var i = 0; i < array.length; i++) {
+        var img = document.createElement("img");
+        var div = document.getElementById('gatinhos');
+        img.src = array[i].imgSource;
+        img.id = array[i].name;
+        img.setAttribute('width', 100);
+        img.setAttribute('heigth', 100);
+        img.setAttribute('clickCount',array[i].clickCount);
+        //console.log(img);
+        div.appendChild(img);
+    }
+</script>
+
+</html>
+
+<script>
+    document.addEventListener('click', function(e) {
+        e = e || window.event;
+        var target = e.target || e.srcElement;
+        if(target.id.match(/gato.*/)) {
+        	var img = document.createElement("img");
+        	var div1 = document.getElementById('div1');
+        	var aux = document.getElementById(e.target.id);
+        	img.src = aux.src;
+        	img.id = target.id;
+        	img.setAttribute('width', 350);
+        	img.setAttribute('heigth', 350);
+        	img.setAttribute('clickCount',0);
+        	div1.innerHTML = "";
+        	div1.appendChild(img);
+        	addClick(target);
+        }
+    }, false);
+</script>
+
+<script>
+    function addClick(Object) {
+       var rec = Object;
+       var aux = document.getElementById(rec.id);
+       for (var i = 0; i < array.length; i++) {
+       		if(array[i].name == aux.id){
+       			array[i].clickCount +=1;
+       			document.getElementById('count').setAttribute('value',array[i].clickCount);
+       		}		
+        	}
+    }
+</script>
