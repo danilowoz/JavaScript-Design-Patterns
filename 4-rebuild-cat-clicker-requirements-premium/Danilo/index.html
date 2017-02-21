@@ -33,68 +33,123 @@
 	
 	<script>
 
-		var display = document.getElementById('display');
-		var list = document.getElementById('list');
-		var cats = [{
-			url: 'cat.jpg',
-			name: 'Ozzy',
-			count: 0
-		}, {
-			url: 'cat2.jpg',
-			name: 'Kurt',
-			count: 0
-		}, {
-			url: 'cat3.jpg',
-			name: 'David',
-			count: 0
-		}, {
-			url: 'cat4.jpg',
-			name: 'Jimmy',
-			count: 0
-		}, {
-			url: 'cat5.jpg',
-			name: 'Safadão',
-			count: 0
-		}];
+		var model = {
+			selected: 0,
+			data : [{
+				url: 'cat.jpg',
+				name: 'Ozzy',
+				count: 0
+			}, {
+				url: 'cat2.jpg',
+				name: 'Kurt',
+				count: 0
+			}, {
+				url: 'cat3.jpg',
+				name: 'David',
+				count: 0
+			}, {
+				url: 'cat4.jpg',
+				name: 'Jimmy',
+				count: 0
+			}, {
+				url: 'cat5.jpg',
+				name: 'Safadão',
+				count: 0
+			}]
+		};
 
-		function insertList(data) {
-			var element =  '<li class="cat-item">'+
-								'<a href="javascript:void(0);">'+data.name+'</a><br>'+
-								'<img src="'+data.url+'">'+
-							'</li>';
 
-			return element
-		}
+		var octopus = {		
 
-		function insertCat(data) {
-			var element =  '<div class="cat-full">'+
-								'<h1>'+data.name+'</h1><br>'+
-								'<p><span class="counter">'+data.count+'</span> miaus.</p>'+
-								'<img class="target" src="'+data.url+'" alt="">'+
-							'</div>';
+			getAllData: function() {
+				return model.data
+			},
 
-			return element
-		}
+			getSelectItem: function() {
+				return model.data[model.selected]
+			},
 
-		// insert list
-		cats.forEach(function(item){
-			list.insertAdjacentHTML('beforeend', insertList(item));
-		});
+			select: function(index) {
+				model.selected = index;
+				
+				view.render();	
+			},
 
-		// clicker
-		list.querySelectorAll('.cat-item').forEach(function(item) {
-			item.addEventListener('click', function(e){
-				var nodeList = Array.prototype.slice.call( list.children );
-				var index = nodeList.indexOf(item); 
-	
+			increment: function() {
+				++model.data[model.selected].count
+
+				view.render();
+			},
+
+			init: function () {
+				view.init();
+			}
+		};
+
+
+		var view = {
+			display: document.getElementById('display'),
+			list: document.getElementById('list'),
+
+			list: function() {
+
+				var processorList = function(data) {
+					var element =  '<li class="cat-item">'+
+										'<a href="javascript:void(0);">'+data.name+'</a><br>'+
+										'<img src="'+data.url+'">'+
+									'</li>';
+
+					return element
+				}
+
+				octopus.getAllData().forEach(function(item){
+					this.list.insertAdjacentHTML('beforeend', processorList(item));
+				});
+
+				// event
+				list.querySelectorAll('.cat-item').forEach(function(item) {
+					item.addEventListener('click', function(e){
+						var nodeList = Array.prototype.slice.call( list.children );
+						var index = nodeList.indexOf(item); 
+						
+						octopus.select(index);	
+					});
+				});
+			},
+
+			feature: function() {
 				display.innerHTML = '';
-				display.insertAdjacentHTML('beforeend', insertCat(cats[index]));
+				
+				function insertCat(data) {
+					var element =  '<div class="cat-full">'+
+										'<h1>'+data.name+'</h1><br>'+
+										'<p><span class="counter">'+data.count+'</span> miaus.</p>'+
+										'<img class="target" src="'+data.url+'" alt="">'+
+									'</div>';
+					return element;
+				}
 
+				var content = insertCat(octopus.getSelectItem());
+				display.insertAdjacentHTML('beforeend', content);
+
+				// event
 				display.querySelector('.cat-full').addEventListener('click', function(e) {
-					display.parentNode.querySelector('.counter').textContent = ++cats[index].count
-				});			
-			});
-		});
+					octopus.increment();
+				});	
+
+			},
+
+			render: function() {
+				view.feature();
+			},
+
+			init: function() {
+				view.feature();
+				view.list();
+			}
+		};
+
+		octopus.init();
 
 	</script>
 
