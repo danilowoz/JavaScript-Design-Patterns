@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Cat Clicker Premium</title>
+	<title>Cat Clicker Premium Pro</title>
 	<style>
 		body {
 			display: flex;
@@ -16,12 +16,18 @@
 		#list img {
 			width: 100px;
 		}
+
 		#display {
-			width: 70%;
+			width: 60%;
 		}
+
 		#display img {
 			max-height: 90vh;
 			max-width: 90vh;
+		}
+
+		.admin-wrap {
+			width: 20%;
 		}
 		
 	</style>
@@ -30,15 +36,28 @@
 
 	<ul id="list"></ul>
 	<div id="display"></div>	
-	<button id="admin-action"></button>
-	<form>
-		
-	</form>
+	
+	<div class="admin-wrap">
+		<button id="admin-action">Sudo</button>
+		<form id="admin-area">
+			<label for="">Name:</label><br>
+			<input required placeholder="name's cat" id="admin_name" type="text"><br>
+			<label for="">Url:</label><br>
+			<input required placeholder="url's cat" id="admin_url" type="text"><br>
+			<label for="">Count</label><br>
+			<input required placeholder="count's cat" id="admin_count" type="number"><br>
+			<br>
+			<br>
+			<button id="admin_save">Save</button>
+			<button id="admin_cancel">Cancel</button>
+		</form>
+	</div>
 	
 	<script>
 
 		var model = {
 			selected: 0,
+			admin: false,
 			data : [{
 				url: 'cat.jpg',
 				name: 'Ozzy',
@@ -85,8 +104,90 @@
 				view.render();
 			},
 
+			adminUpdateVisibily: function(hide) {
+				if (hide) {
+					model.admin = false
+				} else {
+					model.admin = !model.admin
+				}
+			},
+
+			adminSelectVisibily: function() {
+				return model.admin
+			},
+
+			adminPush: function(payload) {
+				this.getSelectItem().name = payload.name
+				this.getSelectItem().url = payload.url
+				this.getSelectItem().count = payload.count
+			},
+
 			init: function () {
 				view.init();
+			}
+		};
+
+
+		var admin = {
+			adminArea: 	 document.getElementById('admin-area'),
+			adminAction: document.getElementById('admin-action'),
+			adminName:   document.getElementById('admin_name'),
+			adminUrl:    document.getElementById('admin_url'),
+			adminCount:  document.getElementById('admin_count'),
+			adminSave:   document.getElementById('admin_save'),
+			adminCancel: document.getElementById('admin_cancel'),
+
+			update: function() {
+				this.adminName.value = octopus.getSelectItem().name;
+				this.adminUrl.value = octopus.getSelectItem().url;
+				this.adminCount.value = octopus.getSelectItem().count;
+			},
+
+			showHidden: function() {
+				if (octopus.adminSelectVisibily()) {
+					this.adminArea.style.display = 'block'
+				} else {
+					this.adminArea.style.display = 'none'
+				}
+			},
+
+			save: function() {
+				var self = this;
+				var content = {
+					name: self.adminName.value,
+					url: self.adminUrl.value,
+					count: self.adminCount.value
+				};
+
+				octopus.adminPush(content);
+				view.render();
+			},
+
+			events: function() {
+				var self = this;
+
+				this.adminAction.addEventListener('click', function(e) {
+					octopus.adminUpdateVisibily();
+					self.showHidden();
+					self.update();
+				});
+
+				this.adminCancel.addEventListener('click', function(e) {
+					self.update();
+					e.preventDefault();
+				});
+
+				this.adminSave.addEventListener('click', function(e) {
+					self.save();
+					self.update();
+					e.preventDefault();
+				});
+			},
+
+			init: function() {
+				this.showHidden();
+				this.update();
+				this.events();
 			}
 		};
 
@@ -97,6 +198,8 @@
 
 			list: function() {
 
+				list.innerHTML = '';
+
 				var processorList = function(data) {
 					var element =  '<li class="cat-item">'+
 										'<a href="javascript:void(0);">'+data.name+'</a><br>'+
@@ -106,14 +209,16 @@
 					return element
 				}
 
-				octopus.getAllData().forEach(function(item){
+				octopus.getAllData().forEach(function(item) {
 					this.list.insertAdjacentHTML('beforeend', processorList(item));
 				});
 
 				// event
 				list.querySelectorAll('.cat-item').forEach(function(item, index) {
 					item.addEventListener('click', function(e){
-						octopus.select(index);	
+						octopus.select(index);
+						octopus.adminUpdateVisibily(true);	
+						admin.showHidden();
 					});
 				});
 			},
@@ -136,17 +241,19 @@
 				// event
 				display.querySelector('.cat-full').addEventListener('click', function(e) {
 					octopus.increment();
+					admin.update();
 				});	
 
 			},
 
 			render: function() {
 				view.feature();
+				view.list();
 			},
 
 			init: function() {
-				view.feature();
-				view.list();
+				this.render();
+				admin.init();
 			}
 		};
 
